@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Minirouter.js Demo 3</title>
+</head>
+<body>
+   <h1>Example hash mode minirouter.js</h1>
+   <h2>Support non server (file:// protocol)</h2>
+   <p>expected url: <b>http://127.0.0.1:5500<i>/#/</i></b> or <b>file:///C:/www/project/docs.html<i>#/</i></b></p>
+   <p>check console.log</p>
+   <nav>
+      <ul>
+        <li><input type="checkbox" checked id="login" />Login</li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/user/1">User 1</a></li>
+        <li><a href="/404">404 Not Found</a></li>
+        <li><button onclick="router.go('/data?limit=10', this)">Data</button></li>
+        <li><a data-router="false" href="https://github.com/milio48/minirouter.js">minirouter.js</a></li>
+      </ul>
+    </nav>
+
+   <div id="app" style="margin-top: 20px; border-top: black solid 1px;"></div>
+
+   <script src="https://cdn.jsdelivr.net/gh/milio48/minirouter.js@main/dist/v1/minirouter.min.js"></script>
+   <script>
+      // Inisialisasi router
+      const router = new minirouterjs('', true); // ?? kocak di hashesh mode http://127.0.0.1:5500/example-nonroot.html#/folderfolder/#/folder/#/folder/#/folder/#/folder/#/folder/
+
+      // expected http://localhost/
+      router.set('/', (params, target) => {
+         console.log(params);
+         console.log(target);
+
+         document.querySelector('#app').innerHTML = '<h1>Home</h1><p>Home Page</p>';
+
+         // coloring by target element. not colorized if route by popstate
+         if(target){target.style.color = 'red'}
+      });
+
+      router.set('/user/:id', (params, target) => {
+         if (!/^\d+$/.test(params.id)) {
+            alert("Invalid input detected. Number only.");
+         } else {
+            console.log("Valid id:", params.id);
+            console.log(params);
+            console.log(target);
+
+            document.querySelector('#app').innerHTML = `<h1>User ${params.id}</h1><p>User Page ${params.id}</p>`;
+            // coloring by querySelector
+            document.querySelector('a[href*="/user"]').style.color = 'red';
+         }
+      });
+
+      router.set('/data', (params, target) => {
+         console.log(params);
+         console.log(target);
+
+         let escaped = router.escapeHTML(params.query.limit);
+         document.querySelector('#app').innerHTML = `<h1>Data</h1><p>Limit ${escaped}</p>`;
+         console.log(router.unescapeHTML(escaped));
+         // coloring by querySelector
+         document.querySelector('button[onclick*="/data"]').style.color = 'red';
+      });
+
+      router.setBefore((params, target) => {
+         document.querySelectorAll('button').forEach((el) => {el.style.color = '';})
+         document.querySelectorAll('a').forEach((el) => {el.style.color = '';})
+         if(!document.querySelector('#login').checked){
+            alert('not login');
+            return false; 
+         }
+      });
+
+      router.setAfter((params, target) => {
+         console.log(`after route ${params}`);
+      });
+
+      router.setNotFound((params, target) => {
+         document.querySelector('#app').innerHTML = `<h1>404 Not Found on ${router.escapeHTML(params)}</h1><p>Please Select Another Page</p>`;
+      });
+
+   </script>
+</body>
+</html>
