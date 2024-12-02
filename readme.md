@@ -1,6 +1,8 @@
-# minirouter.js
+# Minirouter.js
 
 Minirouter.js is an ultra-lightweight traditional router for creating minimalist front-end JavaScript projects.
+
+**[Demo & Documentation](https://milio48.github.io/minirouter.js)**
 
 ### Description
 
@@ -10,7 +12,7 @@ A lightweight, pure JavaScript routing library that provides flexible navigation
 
 *   Zero dependencies
 *   Supports history and hash mode
-*   Automatic <a href> interception and normalizer
+*   Automatic `<a href>` interception and normalizer
 *   File:// protocol compatibility
 *   Customizable route handling
 *   Query parameter extraction
@@ -19,13 +21,13 @@ A lightweight, pure JavaScript routing library that provides flexible navigation
 ### Api
 
 *   [new minirouterjs(baseUrl, hashMode)](#initializing)
-*   [.go(path)](#routebyfunction)
-*   [.set(path, callback)](#setpath)
-*   [.setNotFound(callback)](#additionalrouting)
-*   [.setBefore(callback)](#additionalrouting)
-*   [.setAfter(callback)](#additionalrouting)
-*   [.escapeHTML(string)](#xssprevention)
-*   [.unescapeHTML(string)](#xssprevention)
+*   [.go(path)](#route-by-function)
+*   [.set(path, callback)](#set-path-examples)
+*   [.setNotFound(callback)](#additional-routing-methods)
+*   [.setBefore(callback)](#additional-routing-methods)
+*   [.setAfter(callback)](#additional-routing-methods)
+*   [.escapeHTML(string)](#xss-prevention)
+*   [.unescapeHTML(string)](#xss-prevention)
 
 ### Warning
 
