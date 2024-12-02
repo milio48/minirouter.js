@@ -367,7 +367,7 @@ router.set('/data', (params, target) => {
 
     <script src="https://cdn.jsdelivr.net/gh/milio48/minirouter.js@main/dist/v1/minirouter.min.js"></script>
     <script>
-        const router = new minirouterjs();
+        const router = new minirouterjs('/minirouter.js');
 
         router.set('/', (params, target) => {
             document.querySelector('#output').innerHTML = '<h1>Home</h1><p>Home Page</p>';
