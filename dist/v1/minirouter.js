@@ -46,7 +46,7 @@ class minirouterjs {
         }
       }
 
-      this.go(path);
+      this.go(path+window.location.search);
     });
   }
 
