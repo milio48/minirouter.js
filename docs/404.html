@@ -1,8 +1,425 @@
-<script>
-    fetch('index.html')
-        .then(response => response.text())
-        .then(data => document.write(data))
-        .catch(() => {
-            document.body.innerHTML = '<h1>404 - Page Not Found</h1><p>Oops! The page you are looking for does not exist.</p>';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>minirouter.js</title>
+
+    <meta name="description" content="Minirouter.js is an ultra-lightweight traditional router for creating minimalist front-end JavaScript projects.">
+    <meta name="keywords" content="JavaScript, Router, Front-end, Minirouter.js, Single Page Application">
+    <meta property="og:title" content="Minirouter.js">
+    <meta property="og:description" content="An ultra-lightweight traditional router for minimalist front-end JavaScript projects.">
+    <meta property="og:url" content="https://milio48.github.io/minirouter.js/">
+
+    <style>
+        *{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        a { 
+            text-decoration: none;
+            margin: 2px;
+        }
+
+        #content {
+            max-width: 500px;
+            min-width: none;
+            margin: 0;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #browser{
+            margin: 20px 0 15px 0;
+            background-color: #ffffff82;
+            border: black dotted 2px;
+            border-radius: 18px;
+        }
+
+        #browser > button {
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+        }
+
+        nav {
+            padding: 10px;
+        }
+
+        nav > button {
+            cursor: pointer;
+        }
+
+
+        #urlbar {
+            border-radius: 7px;
+            padding: 5px;
+        }
+
+        #routeit{
+            border: #000000 solid 1px !important;
+            border-radius: 7px;
+            padding: 2px 6px;
+            background-color: #e0dcdcd4;
+        }
+
+        #app {
+            text-align: left;
+            margin-top: 80px;
+            padding: 10px;
+        }
+
+        #app > h3 {
+            margin-top: 1.5 em;   
+        }
+
+        h1, h3 {
+            text-shadow: 3px 2px 0px #ffffff;
+        }
+
+        #index {
+            text-align: center;
+            background-color: #ffd7af;
+            text-shadow: 1px 1px 0px #ffffff;
+            display: block;
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin-top: 10px;
+            padding: 5px;
+            border-top: black 1px solid;
+            border-bottom: black 1px solid;
+        }
+
+        pre{
+            background-color: #f3f3f3;
+            overflow-x: auto;
+            border: black dotted 1px;
+        }
+
+        hr {
+            margin: 50px 0;
+        }
+        </style>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+
+</head>
+<body style="background-color: #f8e6d2;">
+    <main id="content">
+        <h1>minirouter.js</h1>
+        <a class="github-button" href="https://github.com/milio48/minirouter.js" data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star milio48/minorouter.js on GitHub">Star</a>
+        <a class="github-button" href="https://github.com/milio48/minirouter.js/fork" data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-repo-forked" data-size="large" data-show-count="true" aria-label="Fork milio48/minorouter.js on GitHub">Fork</a>
+        <a class="github-button" href="https://github.com/milio48/minirouter.js/issues" data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-issue-opened" data-size="large" data-show-count="true" aria-label="Issue milio48/minorouter.js on GitHub">Issue</a>
+
+        <div id="browser">
+            <nav>
+                <input type="checkbox" checked id="login" />Login
+                <a href="/">Home</a>
+                <a href="/user/1">User 1</a>
+                <a href="/404">404 Not Found</a>
+                <button onclick="router.go('/data?limit=10', this)">Data</button>
+            </nav>
+            <hr style="margin: 10px 0; background-color: #c1c1c1;">
+
+            <button onclick="history.back()">⬅️</button>
+            <button onclick="history.forward()">➡️</button>
+            <input id="urlbar" type="text" width="50%" id="urlbar" placeholder="/" value="/">
+            <button id="routeit" onclick="router.go(urlbar.value)">✨ Route it !</button>
+
+            <hr style="margin: 10px 0; background-color: #c1c1c1;">
+            <div id="output" style="margin: 20px 0; width: 100%;"></div>
+
+            <p style="font-size: xx-small; border-top: dotted 1px; padding-top: 10px; color:gray;">this demo use non root domain mode</p>
+        </div>
+     
+        <span id="index">
+            <a data-router="false" href="#home" style="font-weight: bold;">minirouter.js</a>
+            <a data-router="false" href="#basic">Basic Usage</a>
+            <a data-router="false" href="#advanced">Advanced Usage</a>
+            <a data-router="false" href="#example">Example</a>
+        </span>
+        <div id="app">
+    <h1 id="home">Homepage Documentation</h1>
+    <p>Minirouter.js is an ultra-lightweight traditional router for creating minimalist front-end JavaScript projects.</p>
+    
+    <h3>Description</h3>
+    <p>A lightweight, pure JavaScript routing library that provides flexible navigation with powerful features for modern web applications.</p>
+
+    <h3>Features</h3>
+    <ul>
+        <li>Zero dependencies</li>
+        <li>Supports history and hash mode</li>
+        <li>Automatic &lt;a href&gt; interception and normalizer</li>
+        <li>File:// protocol compatibility</li>
+        <li>Customizable route handling</li>
+        <li>Query parameter extraction</li>
+        <li>Navigation hooks (before/after)</li>
+    </ul>
+
+    <h3>Api</h3>
+    <ul>
+        <li><a href="#initializing">new minirouterjs(baseUrl, hashMode)</a></li>
+        <li><a href="#routebyfunction">.go(path)</a></li>
+        <li><a href="#setpath">.set(path, callback)</a></li>
+        <li><a href="#additionalrouting">.setNotFound(callback)</a></li>
+        <li><a href="#additionalrouting">.setBefore(callback)</a></li>
+        <li><a href="#additionalrouting">.setAfter(callback)</a></li>
+        <li><a href="#xssprevention">.escapeHTML(string)</a></li>
+        <li><a href="#xssprevention">.unescapeHTML(string)</a></li>
+    </ul>
+
+
+    <h3>Warning</h3>
+    <p>Minirouter.js handles only front-end routing. You will need to implement server-side routing separately.</p>
+
+    <hr>
+    <h1 id="basic">Basic Usage</h1>
+    <h3>Installation</h3>
+    <p>Include the library via CDN:</p>
+    <pre><code class="language-html">&lt;script src=&quot;https://cdn.jsdelivr.net/gh/milio48/minirouter.js@main/dist/v1/minirouter.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+    <p>Or download the source code from <a data-router="false" href="https://github.com/milio48/minirouter.js">Github minirouter.js</a></p>
+    
+    <h3>HTML Example</h3>
+    <pre><code class="language-html">&lt;a href=&quot;/&quot;&gt;Home&lt;/a&gt;
+&lt;a href=&quot;/user/1&quot;&gt;User 1&lt;/a&gt;
+&lt;a href=&quot;/notfound&quot;&gt;404&lt;/a&gt;
+
+&lt;!-- Disable router navigation for specific links --&gt;
+&lt;a href=&quot;/unlist&quot; data-router=&quot;false&quot;&gt;unlist&lt;/a&gt;
+</code></pre>
+    <p>Minirouter.js will automatically listen and normalize path of href. Feel free to use relative paths like <b>../</b>.</p>
+
+    <h3 id="routebyfunction">Route by function</h3>
+    <pre><code class="language-html">&lt;button onclick=&quot;router.go('/dashboard')&quot;&gt;Dashboard&lt;/button&gt;</code></pre>
+
+    <h3 id="initializing">Initializing</h3>
+    <pre><code class="language-javascript">// mode root domain (basic usage)
+// expected http://localhost/
+const router = new minirouterjs();
+
+// non root domain
+// expected http://localhost/folder
+const router = new minirouterjs('/folder');
+
+// hashes mode (support file:// protocol)
+// expected http://127.0.0.1:5500/#/
+// or file:///C:/www/project/file.html#/
+// note : you cant combine hash mode with non root domain
+const router = new minirouterjs('', true);</code></pre>
+    
+
+    <h3 id="setpath">Set Path Examples</h3>
+    <pre><code class="language-javascript">// expected http://localhost/
+router.set('/', (params, target) => {
+    console.log(params); // { "param": "/", "query": {} }
+    console.log(target); // trigger element
+});
+
+// expected http://localhost/user/1
+router.set('/user/:id', (params, target) => {
+    console.log(params); //  { "param": "/user/1", "query": {}, "id": "1" }
+    console.log(target); // trigger element
+});
+    </code></pre>
+
+ 
+
+    <h3>Query Parameter Handling</h3>
+    <pre><code class="language-javascript">// expected http://localhost/get/alluser/?limit=50
+router.set('/get/:data', (params, target) => {
+    console.log(params);
+    /*
+    {
+    "param": "/get/alluser/?limit=50",
+    "query": {
+        "limit": "50"
+    },
+    "data": "1"
+    }
+    */
+    console.log(params.query.limit);
+    console.log(target); // trigger element
+});
+    </code></pre>
+
+
+    <h3 id="additionalrouting">Additional Routing Methods</h3>
+    <pre><code class="language-javascript">// expected http://localhost/404
+router.setNotFound((params, target) => {
+    console.log('Not Found :' + params + target);
+});
+
+// will executed before navigate
+// possible to check authentication
+router.setBefore((path, target) => {
+   console.log("Before Hook - Path:", path, "Target:", target);
+});
+
+// will executed after navigate
+router.setAfter((path, target) => {
+    console.log("After Hook - Path:", path, "Target:", target);
+});
+    </code></pre>
+
+
+    <hr>
+    <h1 id="advanced">Advanced Usage</h1>
+
+    <h3>Non Root Domain</h3>
+    <pre><code class="language-javascript">// set base url to /folder
+const router = new minirouterjs("/folder");
+
+// expected http://localhost/folder as root
+router.set('/', (params, target) => {
+    console.log(params); // { "param": "/", "query": {} }
+    console.log(target); // trigger element
+});
+
+// expected http://localhost/folder/docs
+router.set('/docs', (params, target) => {
+    console.log(params); // { "param": "/", "query": {} }
+    console.log(target); // trigger element
+});
+    </code></pre>
+    <p>
+        If your domain is <b>http://localhost/folder</b>, you can set the base URL to <b>/folder</b> and still write routes as <b>/</b>.
+        <br><br>
+        This means you can easily copy your project to any domain and it will work seamlessly by simply editing the base URL.
+        <br><br>
+        The link <b style="color: blue"> &lt;a href=&quot;/user/1&quot;&gt;User 1&lt;/a&gt; </b> will automatically be normalized to <b style="color: blue"> &lt;a href=&quot;/folder/user/1&quot;&gt;User 1&lt;/a&gt; </b>. Enjoy the convenience!
+    </p>
+
+
+    <br>
+    <h3>Hashes Mode & Non HTTP Domain (file:// protocol)</h3>
+    <pre><code class="language-javascript">// set base url to null and hashes mode to true
+const router = new minirouterjs("", true);
+
+// expected http://localhost/#/
+router.set('/', (params, target) => {
+    console.log(params); // { "param": "/", "query": {} }
+    console.log(target); // trigger element
+});
+
+// expected http://localhost/#/docs
+router.set('/docs', (params, target) => {
+    console.log(params); // { "param": "/", "query": {} }
+    console.log(target); // trigger element
+});
+    </code></pre>
+    <p>
+        This is useful for non-HTTP domains, such as <b>file:///C:/www/project/index.html#/docs</b>.
+        <br>
+        The link <b style="color: blue">&lt;a href=&quot;/docs/&gt;Docs&lt;/a&gt;</b> will also be automatically normalized.
+    </p>
+
+
+    <br>
+    <h3 id="xssprevention">XSS Prevention</h3>
+    <p>Minirouter.js provides <b>escapeHTML()</b> and <b>unescapeHTML()</b> methods to help prevent Cross-Site Scripting (XSS) attacks.</p>
+    
+    <pre><code class="language-javascript">// non escaped
+// http://127.0.0.1:5500/data?limit=&lt;h1&gt;XSS&lt;/h1&gt;
+router.set('/data', (params, target) => {
+    console.log(params);
+    console.log(target);
+    document.querySelector('#app').innerHTML = `&lt;h1&gt;Data&lt;/h1&gt;&lt;p&gt;Limit ${params.query.limit}&lt;/p&gt;`;
+    // coloring by querySelector
+    document.querySelector('button[onclick*="/data"]').style.color = 'red';
+});
+
+
+
+// escaped html
+router.set('/data', (params, target) => {
+    console.log(params);
+    console.log(target);
+
+    let escaped = router.escapeHTML(params.query.limit);
+    document.querySelector('#app').innerHTML = `&lt;h1&gt;Data&lt;/h1&gt;&lt;p&gt;Limit ${escaped}&lt;/p&gt;`;
+    console.log(router.unescapeHTML(escaped));
+    // coloring by querySelector
+    document.querySelector('button[onclick*="/data"]').style.color = 'red';
+});
+
+    </code></pre>
+    <p>
+        <b>Best Practices:</b>
+        <ul>
+            <li>Always escape user inputs before rendering</li>
+            <li>Prefer <b>innerText</b> or <b>textContent</b> when possible</li>
+            <li>Use escapeHTML() for rendering dynamic content</li>
+            <li>Use unescapeHTML() only when you need to retrieve the original content</li>
+        </ul>
+    </p>
+
+    <hr>
+    <h1 id="example">Example</h1>
+    <ul>
+        <li><a data-router="false" href="https://github.com/milio48/minirouter.js/tree/main/example/root-domain">root-domain</a></li>
+        <li><a data-router="false" href="https://github.com/milio48/minirouter.js/tree/main/example/nonroot-domain">non-root-domain</a></li>
+        <li><a data-router="false"  href="https://github.com/milio48/minirouter.js/tree/main/example/hashmode">hashmode</a></li>
+    </ul>
+</div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/gh/milio48/minirouter.js@main/dist/v1/minirouter.min.js"></script>
+    <script>
+        const router = new minirouterjs('/minirouter.js');
+
+        router.set('/', (params, target) => {
+            document.querySelector('#output').innerHTML = '<h1>Home</h1><p>Home Page</p>';
+
+            // coloring by target element. not colorized if route by popstate
+            if(target){target.style.color = 'red'}
         });
-</script>
+
+        router.set('/user/:id', (params, target) => {
+            if (!/^\d+$/.test(params.id)) {
+                alert("Invalid input detected. Number only.");
+            } else {
+                console.log("Valid id:", params.id);
+                console.log(params);
+                console.log(target);
+                document.querySelector('#output').innerHTML = `<h1>User ${params.id}</h1><p>User Page ${params.id}</p>`;
+                // coloring by querySelector
+                document.querySelector('a[href*="/user"]').style.color = 'red';
+            }
+        });
+
+        router.set('/data', (params, target) => {
+            console.log(params);
+            console.log(target);
+
+            let escaped = router.escapeHTML(params.query.limit);
+            document.querySelector('#output').innerHTML = `<h1>Data</h1><p>Limit ${escaped}</p>`;
+            console.log(router.unescapeHTML(escaped));
+            // coloring by querySelector
+            document.querySelector('button[onclick*="/data"]').style.color = 'red';
+        });
+
+        router.setBefore((params, target) => {
+            console.log(`before route ${params}`);
+            document.querySelectorAll('#browser > nav> button').forEach((el) => {el.style.color = '';})
+            document.querySelectorAll('#browser > nav > a').forEach((el) => {el.style.color = '';})
+            if(!document.querySelector('#login').checked){
+                alert('not login');
+                return false; 
+            }
+        });
+
+        router.setAfter((params, target) => {
+            console.log(`after route ${params}`);
+            document.querySelector('#urlbar').value = params;
+        });
+
+        router.setNotFound((params, target) => {
+            document.querySelector('#output').innerHTML = `<h1>404 Not Found on ${router.escapeHTML(params)}</h1>`;
+        });
+    </script>
+</body>
+</html>
