@@ -39,7 +39,8 @@ Minirouter.js handles only front-end routing. You will need to implement server-
 
 ### Installation
 
-Include the library via CDN:
+Include the library via CDN : 
+[![](https://data.jsdelivr.com/v1/package/gh/milio48/minirouter.js/badge)](https://www.jsdelivr.com/package/gh/milio48/minirouter.js)
 
 ```html
 <script src="https://cdn.jsdelivr.net/gh/milio48/minirouter.js@main/dist/v1/minirouter.min.js"></script>
