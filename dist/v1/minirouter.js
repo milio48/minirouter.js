@@ -32,6 +32,10 @@ class minirouterjs {
     });
 
     window.addEventListener("popstate", () => {
+      if(this.hashMode){
+        if (document.querySelectorAll(`[href="${window.location.hash}"][data-router="false"]`).length > 0) return false;
+      }
+      
       this.handleNavigation(window.location.pathname + window.location.search);
     });
 
@@ -53,6 +57,10 @@ class minirouterjs {
   updateLinks() {
     let hash = this.hashMode ? "/#" : "";
     document.querySelectorAll("a").forEach((a) => {
+      if(a.hasAttribute("data-router") && a.getAttribute("data-router") === "false"){
+        return;
+      }
+
       if (
         !a.getAttribute("href").startsWith("http") &&
         !a.getAttribute("href").startsWith(this.baseUrl)

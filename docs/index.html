@@ -158,14 +158,14 @@
 
     <h3>Api</h3>
     <ul>
-        <li><a href="#initializing">new minirouterjs(baseUrl, hashMode)</a></li>
-        <li><a href="#routebyfunction">.go(path)</a></li>
-        <li><a href="#setpath">.set(path, callback)</a></li>
-        <li><a href="#additionalrouting">.setNotFound(callback)</a></li>
-        <li><a href="#additionalrouting">.setBefore(callback)</a></li>
-        <li><a href="#additionalrouting">.setAfter(callback)</a></li>
-        <li><a href="#xssprevention">.escapeHTML(string)</a></li>
-        <li><a href="#xssprevention">.unescapeHTML(string)</a></li>
+        <li><a data-router="false" href="#initializing">new minirouterjs(baseUrl, hashMode)</a></li>
+        <li><a data-router="false" href="#routebyfunction">.go(path)</a></li>
+        <li><a data-router="false" href="#setpath">.set(path, callback)</a></li>
+        <li><a data-router="false" href="#additionalrouting">.setNotFound(callback)</a></li>
+        <li><a data-router="false" href="#additionalrouting">.setBefore(callback)</a></li>
+        <li><a data-router="false" href="#additionalrouting">.setAfter(callback)</a></li>
+        <li><a data-router="false" href="#xssprevention">.escapeHTML(string)</a></li>
+        <li><a data-router="false" href="#xssprevention">.unescapeHTML(string)</a></li>
     </ul>
 
 
@@ -418,6 +418,7 @@ router.set('/data', (params, target) => {
         });
 
         router.setNotFound((params, target) => {
+            document.querySelector('#urlbar').value = params;
             document.querySelector('#output').innerHTML = `<h1>404 Not Found on ${router.escapeHTML(params)}</h1>`;
         });
     </script>
