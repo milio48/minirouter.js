@@ -2,7 +2,7 @@
 
 Minirouter.js is an ultra-lightweight traditional router for creating minimalist front-end JavaScript projects.
 
-**[Demo & Documentation](https://milio48.github.io/minirouter.js)**
+**[Demo & Documentation](https://minirouter.js.org)**
 
 ### Description
 
