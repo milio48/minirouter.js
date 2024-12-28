@@ -56,7 +56,7 @@ class minirouterjs {
 
   updateLinks() {
     let hash = this.hashMode ? "/#" : "";
-    document.querySelectorAll("a").forEach((a) => {
+    document.querySelectorAll("a[href]").forEach((a) => {
       if(a.hasAttribute("data-router") && a.getAttribute("data-router") === "false"){
         return;
       }
