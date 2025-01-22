@@ -19,10 +19,14 @@ class minirouterjs {
   init() {
     document.addEventListener("click", (event) => {
       const target = event.target.closest("a");
+      const isSameDomain = (linkElement) => new URL(linkElement.href, window.location.origin).host === window.location.host;
+      
+      console.log(isSameDomain(target));
       if (target && target.href) {
         if (
-          target.hasAttribute("data-router") &&
-          target.getAttribute("data-router") === "false"
+          target.hasAttribute("data-router") && target.getAttribute("data-router") === "false"
+          || isSameDomain(target) == false
+          || target.hasAttribute("target") && target.getAttribute("target") === "_blank"
         ) {
           return;
         }
