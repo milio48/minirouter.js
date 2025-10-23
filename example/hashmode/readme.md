@@ -1,6 +1,6 @@
 # example minirouter.js hashmode
 
-expexted url: http://127.0.0.1:5501/ or file:///C:/www/project/file.html#/
+expected url: http://127.0.0.1:5501/ or file:///C:/www/project/file.html#/
 
 ## run server php
 ```bash

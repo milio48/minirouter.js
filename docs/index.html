@@ -100,6 +100,7 @@
         hr {
             margin: 50px 0;
         }
+        mark {background-color: #ffffff82;}
         </style>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
 
@@ -173,19 +174,36 @@
     <hr>
     <h1 id="basic">Basic Usage</h1>
     <h3>Installation</h3>
-    <p>Include the library via CDN:</p>
-    <pre><code class="language-html">&lt;script src=&quot;https://cdn.jsdelivr.net/gh/milio48/minirouter.js@main/dist/v1/minirouter.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+    <p>Include the library via CDN: <img src="https://data.jsdelivr.com/v1/package/gh/milio48/minirouter.js/badge"></p>
+    <pre><code class="language-html">&lt;script src=&quot;https://cdn.jsdelivr.net/gh/milio48/minirouter.js@main/dist/v1.1/minirouter.min.js&quot;&gt;&lt;/script&gt;</code></pre>
     <p>Or download the source code from <a data-router="false" href="https://github.com/milio48/minirouter.js">Github minirouter.js</a></p>
     
-    <h3>HTML Example</h3>
+    <h3>HTML Example (Default: Blacklist Mode)</h3>
+    <pre><code class="language-javascript">const router = new minirouterjs();</code></pre>
     <pre><code class="language-html">&lt;a href=&quot;/&quot;&gt;Home&lt;/a&gt;
 &lt;a href=&quot;/user/1&quot;&gt;User 1&lt;/a&gt;
 &lt;a href=&quot;/notfound&quot;&gt;404&lt;/a&gt;
 
 &lt;!-- Disable router navigation for specific links --&gt;
-&lt;a href=&quot;/unlist&quot; data-router=&quot;false&quot;&gt;unlist&lt;/a&gt;
+&lt;a href=&quot;/unlist&quot; mrt-none&gt;unlist&lt;/a&gt;
+&lt;a href=&quot;/download.zip&quot; mrt-none&gt;Download File&lt;/a&gt;
 </code></pre>
+    <p>In Blacklist Mode <mark>(whitelistMode = false)</mark>, the router listens to all links, automatically ignoring external domains and <mark>target="_blank"</mark>. Use <mark>blacklistAttr</mark> (e.g., <mark>mrt-none</mark>) only to manually skip internal links.</p>
     <p>Minirouter.js will automatically listen and normalize path of href. Feel free to use relative paths like <b>../</b>.</p>
+
+
+
+        <h3>HTML Example (Whitelist Mode)</h3>
+    <pre><code class="language-javascript">const router = new minirouterjs();
+router.whitelistMode = true;</code></pre>
+    <pre><code class="language-html">&lt;!-- Enable router navigation for specific links --&gt;
+&lt;a href=&quot;/&quot; mrt&gt;Home&lt;/a&gt;
+&lt;a href=&quot;/user/1&quot; mrt &gt;User 1&lt;/a&gt;
+&lt;a href=&quot;/notfound&quot; mrt &gt;404&lt;/a&gt;
+</code></pre>
+    <p>This is the "opt-in" mode. Minirouter.js will ignore all links, except for those you specifically mark with the <mark>mrt</mark> as a <mark>whitelistAttr</mark>.</p>
+
+
 
     <h3 id="routebyfunction">Route by function</h3>
     <pre><code class="language-html">&lt;button onclick=&quot;router.go('/dashboard')&quot;&gt;Dashboard&lt;/button&gt;</code></pre>
@@ -204,6 +222,13 @@ const router = new minirouterjs('/folder');
 // or file:///C:/www/project/file.html#/
 // note : you cant combine hash mode with non root domain
 const router = new minirouterjs('', true);</code></pre>
+
+<h3 id="customization">Customization</h3>
+    <pre><code class="language-javascript">const router = new minirouterjs();
+
+router.whitelistMode = false;
+router.whitelistAttr = "mrt";
+router.blacklistAttr = "mrt-none";</code></pre>
     
 
     <h3 id="setpath">Set Path Examples</h3>
@@ -354,9 +379,10 @@ router.set('/data', (params, target) => {
     <hr>
     <h1 id="example">Example</h1>
     <ul>
-        <li><a data-router="false" href="https://github.com/milio48/minirouter.js/tree/main/example/root-domain">root-domain</a></li>
-        <li><a data-router="false" href="https://github.com/milio48/minirouter.js/tree/main/example/nonroot-domain">non-root-domain</a></li>
-        <li><a data-router="false"  href="https://github.com/milio48/minirouter.js/tree/main/example/hashmode">hashmode</a></li>
+        <li><a href="https://github.com/milio48/minirouter.js/tree/main/example/root-domain">root-domain</a></li>
+        <li><a href="https://github.com/milio48/minirouter.js/tree/main/example/nonroot-domain">non-root-domain</a></li>
+        <li><a href="https://github.com/milio48/minirouter.js/tree/main/example/hashmode">hashmode</a></li>
+        <li><a href="https://github.com/milio48/minirouter.js/tree/main/example/whitelist-mode">whitelist-mode</a></li>
     </ul>
 </div>
     </main>
@@ -365,7 +391,7 @@ router.set('/data', (params, target) => {
     <script>hljs.highlightAll();</script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/gh/milio48/minirouter.js@main/dist/v1/minirouter.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/milio48/minirouter.js@main/dist/v1.1/minirouter.min.js"></script>
     <script>
         const router = new minirouterjs();
 

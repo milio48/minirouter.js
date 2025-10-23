@@ -43,7 +43,7 @@ Include the library via CDN :
 [![](https://data.jsdelivr.com/v1/package/gh/milio48/minirouter.js/badge)](https://www.jsdelivr.com/package/gh/milio48/minirouter.js)
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/milio48/minirouter.js@main/dist/v1/minirouter.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/milio48/minirouter.js@main/dist/v1.1/minirouter.min.js"></script>
 ```
 
 Or download the source code from [Github minirouter.js](https://github.com/milio48/minirouter.js)
@@ -56,7 +56,7 @@ Or download the source code from [Github minirouter.js](https://github.com/milio
 <a href="/notfound">404</a>
 
 <!-- Disable router navigation for specific links -->
-<a href="/unlist" data-router="false">unlist</a>
+<a href="/unlist" mrt-none>unlist</a>
 ```
 
 Minirouter.js will automatically listen and normalize path of href. Feel free to use relative paths like **../**.
@@ -65,6 +65,19 @@ Minirouter.js will automatically listen and normalize path of href. Feel free to
 
 ```html
 <button onclick="router.go('/dashboard')">Dashboard</button>
+```
+
+### HTML Example (New v1.1 : Whitelist Mode)
+```javascript
+const router = new minirouterjs();
+router.whitelistMode = true;
+```
+
+```html
+<!-- Enable router navigation for specific links -->
+<a href="/" mrt>Home</a>
+<a href="/user/1" mrt >User 1</a>
+<a href="/notfound" mrt >404</a>
 ```
 
 ### Initializing
@@ -83,6 +96,15 @@ const router = new minirouterjs('/folder');
 // or file:///C:/www/project/file.html#/
 // note : you cant combine hash mode with non root domain
 const router = new minirouterjs('', true);
+```
+
+### Customization (New v1.1)
+```javascript
+const router = new minirouterjs();
+
+router.whitelistMode = false;
+router.whitelistAttr = "mrt";
+router.blacklistAttr = "mrt-none";
 ```
 
 ### Set Path Examples
@@ -247,3 +269,4 @@ router.set('/data', (params, target) => {
 *   [root-domain](https://github.com/milio48/minirouter.js/tree/main/example/root-domain)
 *   [non-root-domain](https://github.com/milio48/minirouter.js/tree/main/example/nonroot-domain)
 *   [hashmode](https://github.com/milio48/minirouter.js/tree/main/example/hashmode)
+*   [whitelist-mode](https://github.com/milio48/minirouter.js/tree/main/example/whitelist-mode)

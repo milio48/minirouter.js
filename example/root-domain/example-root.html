@@ -14,13 +14,14 @@
         <li><a href="/user/1">User 1</a></li>
         <li><a href="/404">404 Not Found</a></li>
         <li><button onclick="router.go('/data?limit=10', this)">Data</button></li>
-        <li><a data-router="false" href="https://github.com/milio48/minirouter.js">minirouter.js</a></li>
+        <li><a href="https://github.com/milio48/minirouter.js">minirouter.js</a></li>
+        <li><a href="/download.zip" mrt-none>Download File</a></li>
       </ul>
     </nav>
 
     <div id="app" style="margin-top: 20px; border-top: black solid 1px"></div>
 
-    <script src="https://cdn.jsdelivr.net/gh/milio48/minirouter.js@main/dist/v1/minirouter.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/milio48/minirouter.js@main/dist/v1.1/minirouter.min.js"></script>
     <script>
       // Inisialisasi router
       const router = new minirouterjs();
