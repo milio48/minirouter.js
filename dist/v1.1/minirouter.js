@@ -111,11 +111,12 @@ class minirouterjs {
       } else {
         if (
           this.hashMode &&
+          !a.getAttribute("href").startsWith("http") &&
           !a.getAttribute("href").startsWith("/#/") &&
           !a.getAttribute("href").startsWith("./") &&
           !a.getAttribute("href").startsWith("../")
         ) {
-          a.href = hash + this.baseUrl + a.getAttribute("href");
+          a.href = hash + a.getAttribute("href");
         }
       }
     });
